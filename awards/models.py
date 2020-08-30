@@ -1,4 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.core.validators import URLValidator,MaxValueValidator,MinValueValidator
+from tinymce.models import HTMLField
+
 
 # Create your models here.
 class Profile(models.Model):
