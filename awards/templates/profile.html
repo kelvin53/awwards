@@ -1,0 +1,88 @@
+{%extends 'base.html'%}
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+{% block content %}
+{{block.super}}
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+  <body style="background-color:#FCFDFE">
+
+
+  <div class="row">
+  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+      <style>
+      img.radius {
+      border-radius: 70%;
+      }
+      </style>
+          <img src="{{profile.profile_photo.url}}" class="radius" class="img-responsive" alt="Image" style="width:200px;height:200px;">
+    <br>
+    <br>
+    <p>{{profile.bio}}</p>
+    <p>{{profile.contact}}</p>
+
+
+  </div>
+  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+    <p>{{request.user.username}}
+    <a  data-toggle="modal" data-target="#settings" aria-hidden="true" ><span class="glyphicon glyphicon-cog"></span></a></p>
+
+
+
+
+  </div>
+  <p><a href="{%url 'edit-profile'%}">Edit profile</a></p>
+</div>
+<br>
+
+  <div class="row">
+<p class="text-center"><strong>Your projects</strong></p>
+
+    {% for project in projects %}
+
+    <div class="col-md-4">
+
+      <img src="{{project.image.url}}" class="img-responsive" alt="Image">
+
+      </div>
+
+
+    {% empty %}
+    <h2 class="text-center">There are no projects yet</h2>
+
+    {% endfor %}
+  </div>
+  <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <ul class="list-group">
+                <li class="list-group-item text-center"><a href="/accounts/password/change">Change Password</a></li>
+                <li class="list-group-item text-center"><a href="/logout/">Log Out</a></li>
+                <li class="list-group-item text-center"><a data-dismiss="modal">Cancel</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+ </div>
+</body>
+</div>
+{% endblock %}
+</body>
+</html>
