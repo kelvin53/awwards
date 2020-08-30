@@ -64,3 +64,44 @@ def project(request,project_id):
    else:
        form = NewRateForm()
    return render(request,'project.html',{'form':form,'project':project,'rating':rating})
+
+
+def profile(request):
+    current_user=request.user
+    projects=Project.objects.filter(profile=current_user).all()
+    profile = Profile.objects.filter(user=current_user)
+
+    if len(profile)<1:
+        profile = "No profile"
+    else:
+        profile = Profile.objects.get(user=current_user)
+
+    return render(request,'profile.html',{"projects":projects,"profile":profile})
+
+def edit_profile(request):
+    current_user=request.user
+
+    if request.method == 'POST':
+        form =NewProfileForm(request.POST,request.FILES)
+        if form.is_valid():
+            profile=form.save(commit=False)
+            profile.user = current_user
+            profile.save()
+        return redirect('profile')
+    else:
+        form=NewProfileForm()
+    return render(request,'edit_profile.html',{"form":form})
+
+
+def search_results(request):
+
+    if 'project' in request.GET and request.GET["project"]:
+        search_term = request.GET.get("project")
+        searched_projects = Project.search_by_title(search_term)
+        message = f"{search_term}"
+
+        return render(request, 'search.html',{"message":message,"projects": searched_projects})
+
+    else:
+        message = "You haven't searched for any term"
+        return render(request, 'search.html',{"message":message})
