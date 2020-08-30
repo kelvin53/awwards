@@ -21,3 +21,16 @@ def new_project(request):
         form = NewProjectForm()
     return render(request, 'new_project.html', {"form": form})
 
+def rate(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = NewRateForm(request.POST, request.FILES)
+        if form.is_valid():
+            project = form.save()
+            # project.profile = current_user
+            # project.save()
+        return redirect('project')
+
+    else:
+        form = NewRateForm()
+    return render(request, 'rate.html', {"form": form})
